@@ -2,3 +2,8 @@ body {
     background-image: url("../images/img1.jpg");
     background-size: cover;
 }
+
+form {
+    float: right;
+    padding: 30px 100px 0px 0px;
+}
