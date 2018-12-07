@@ -13,15 +13,32 @@ $(document).ready(function () {
         buttons.appendTo('#topics');
 
     }
+    $('#topics').on('click', 'button', function(){
+        var topics = $(this).text().trim();
+        ajaxcall(topics);
+        $("#giphys").empty();
+    }) 
+
+    
+
+
     // Telling the giphy API what keywords to search for
     var searchString = "superHeros";
     // Making the search form input user data
     $('#search').on('click', function (event) {
         event.preventDefault();
         input = $('#input').val().trim();
-        topics.push(input);
+        var checkArray = [];
+        for(var i = 0; i < topics.length; i++) {
+            checkArray.push( topics[i].toLowerCase() );
+            console.log(checkArray)
+        }
+        if( !checkArray.includes(input.toLowerCase()) ) {
+            topics.push(input);
+        }
         renderButtons();
         ajaxcall(input);
+        $("#input").val("");
     });
 
     function renderButtons() {
@@ -47,27 +64,15 @@ $(document).ready(function () {
 
         $.ajax({
             method: 'GET',
-            url: geturl,
-            success: function(response) {
-                console.log(response);
-                for(var i = 0; i < response.length; i++) {
-                    console.log("here");
-                    var gif = response.data[i].images.original;
-                    console.log("GIF: ", gif);
+            url: geturl
+        }).then(function (response) {
+           console.log(response);
+                for(var i = 0; i < response.data.length; i++) {
+                    var gif = response.data[i].images.fixed_height.url;
                     var gifdiv = '<div><img src = ' + gif + '></div>';
                     $('#giphys').append(gifdiv);
                  }
-            }
-        })
-            // .then(function (response) {
-            //     console.log(response);
-            //     for(var i = 0; i < response.length; i++) {
-            //         console.log("here");
-            //         var gif = response.data[i].images.original;
-            //         console.log("GIF: ", gif);
-            //         var gifdiv = '<div><img src = ' + gif + '></div>';
-            //         $('#giphys').append(gifdiv);
-            //      }
-            // });
+            });
     }
+
 });
