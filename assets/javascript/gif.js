@@ -13,13 +13,13 @@ $(document).ready(function () {
         buttons.appendTo('#topics');
 
     }
-    $('#topics').on('click', 'button', function(){
+    $('#topics').on('click', 'button', function () {
         var topics = $(this).text().trim();
         ajaxcall(topics);
         $("#giphys").empty();
-    }) 
+    })
 
-    
+
 
 
     // Telling the giphy API what keywords to search for
@@ -29,11 +29,11 @@ $(document).ready(function () {
         event.preventDefault();
         input = $('#input').val().trim();
         var checkArray = [];
-        for(var i = 0; i < topics.length; i++) {
-            checkArray.push( topics[i].toLowerCase() );
+        for (var i = 0; i < topics.length; i++) {
+            checkArray.push(topics[i].toLowerCase());
             console.log(checkArray)
         }
-        if( !checkArray.includes(input.toLowerCase()) ) {
+        if (!checkArray.includes(input.toLowerCase())) {
             topics.push(input);
         }
         renderButtons();
@@ -66,13 +66,13 @@ $(document).ready(function () {
             method: 'GET',
             url: geturl
         }).then(function (response) {
-           console.log(response);
-                for(var i = 0; i < response.data.length; i++) {
-                    var gif = response.data[i].images.fixed_height.url;
-                    var gifdiv = '<div><img src = ' + gif + '></div>';
-                    $('#giphys').append(gifdiv);
-                 }
-            });
+            console.log(response);
+            for (var i = 0; i < response.data.length; i++) {
+                var gif = response.data[i].images.fixed_height.url;
+                var gifdiv = '<div><img src = ' + gif + '></div>';
+                $('#giphys').append(gifdiv);
+            }
+        });
     }
 
 });
